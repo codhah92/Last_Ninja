@@ -1,3 +1,5 @@
+const MovingObject = require('./moving_object.js');
+
 class Ninja {
   constructor(options) {
     this.pos = options.pos;
