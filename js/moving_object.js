@@ -24,7 +24,7 @@ class MovingObject {
     ctx.fill();
   }
 
-  isCollidedWith (otherMovingObject) {
+  isCollidedWith(otherMovingObject) {
     const directDistance = Util.distance(this.pos, otherMovingObject.pos);
     return (directDistance < (this.radius + otherMovingObject.radius));
   }

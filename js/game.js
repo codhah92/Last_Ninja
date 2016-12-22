@@ -73,7 +73,7 @@ class Game {
 
   step () {
     this.moveObjects();
-    // this.checkCollisions();
+    this.checkNinjaHit();
   }
 
   outOfScreen(object) {
@@ -89,23 +89,36 @@ class Game {
     }
   }
 
-  // checkCollisions() {
-  //   const allObjects = this.allObjects();
-  //   for (let i = 0; i < allObjects.length; i++) {
-  //     for (let j = 0; j < allObjects.length; j++) {
-  //       const firstObject = allObjects[i];
-  //       const secondObject = allObjects[j];
-  //
-  //       if (firstObject.)
-  //     }
-  //   }
-  // }
+  checkNinjaHit() {
+    const allObjects = this.allObjects();
+    for (let i = 0; i < allObjects.length; i++) {
+      for (let j = 0; j < allObjects.length; j++) {
+        const firstObject = allObjects[i];
+        const secondObject = allObjects[j];
 
+        if ((firstObject instanceof Star) && (secondObject instanceof Ninja) ||
+            ((firstObject instanceof Ninja) && (secondObject instanceof Star))){
+          if (firstObject.isCollidedWith(secondObject)) {
+            firstObject.remove();
+            secondObject.remove();
+          }
+        }
+      }
+    }
+  }
+
+  remove(object) {
+    if (object instanceof Ninja) {
+      this.ninjas.splice(this.ninjas.indexOf(object), 1);
+    } else if (object instanceof Star) {
+      this.stars.splice(this.stars.indexOf(object), 1);
+    }
+  }
 }
 
 Game.DIM_X = 1000;
 Game.DIM_Y = 500;
-Game.TOTAL_STARS = 30;
+Game.TOTAL_STARS = 25;
 Game.BG_COLOR = "#000";
 
 module.exports = Game;
