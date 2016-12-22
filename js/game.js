@@ -29,20 +29,24 @@ class Game {
     }
   }
 
-  allObjects() {
-    const allObjects = [];
-    allObjects.concat(this.ninjas);
-    allObjects.concat(this.kunais);
-    allObjects.concat(this.stars);
-    return allObjects;
-  }
+  // allObjects() {
+  //   const allObjects = [];
+  //   allObjects.concat(this.ninjas);
+  //   allObjects.concat(this.kunais);
+  //   allObjects.concat(this.stars);
+  //   return allObjects;
+  // }
 
   draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
-    this.allObjects().forEach((object) => {
+    this.ninjas.forEach((object) => {
+      object.draw(ctx);
+    });
+
+    this.stars.forEach((object) => {
       object.draw(ctx);
     });
   }
@@ -59,16 +63,19 @@ class Game {
   }
 
   ninjaInitialPos() {
-    return [Math.random() * (Game.DIM_X / 4), Math.random() * Game.DIM_Y];
+    const initialPos = [Math.random() * 150 + 50, Math.random() * 150 + 100];
+    return initialPos;
   }
 
   starInitialPos() {
-    return [Game.DIM_X, Math.random() * Game.DIM_Y];
+    return [Game.DIM_X , Math.random() * Game.DIM_Y];
   }
 
   moveObjects() {
     this.allObjects().forEach((object) => {
-      if (object) { object.move(); }
+      if (object) {
+        object.move();
+      }
     });
   }
 
