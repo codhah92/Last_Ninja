@@ -5,9 +5,13 @@ class GameView {
     this.ninja = this.game.makeNinja();
   }
 
-  start() {
+  update() {
+    this.game.step();
     this.game.draw(this.ctx);
-    setInterval(this.game.draw(this.ctx), 200);
+  }
+
+  start() {
+    setInterval(this.update.bind(this), 20);
   }
 
   animate() {

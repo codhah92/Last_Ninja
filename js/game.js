@@ -29,24 +29,16 @@ class Game {
     }
   }
 
-  // allObjects() {
-  //   const allObjects = [];
-  //   allObjects.concat(this.ninjas);
-  //   allObjects.concat(this.kunais);
-  //   allObjects.concat(this.stars);
-  //   return allObjects;
-  // }
+  allObjects() {
+    return [].concat(this.ninjas, this.stars, this.kunais);
+  }
 
   draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
-    this.ninjas.forEach((object) => {
-      object.draw(ctx);
-    });
-
-    this.stars.forEach((object) => {
+    this.allObjects().forEach((object) => {
       object.draw(ctx);
     });
   }
@@ -81,7 +73,7 @@ class Game {
 
   step () {
     this.moveObjects();
-    this.checkCollisions();
+    // this.checkCollisions();
   }
 
   outOfScreen(object) {
@@ -114,5 +106,6 @@ class Game {
 Game.DIM_X = 1000;
 Game.DIM_Y = 500;
 Game.TOTAL_STARS = 30;
+Game.BG_COLOR = "#000";
 
 module.exports = Game;
