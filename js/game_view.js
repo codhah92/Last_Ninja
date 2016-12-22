@@ -3,6 +3,24 @@ class GameView {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
+
+    $(window).on("keydown", this.handleKeyEvent.bind(this));
+  }
+
+  // bindKeyHandlers() {
+  //   $(window).on("keydown", function(e) {
+  //     this.handleKeyEvent(e);
+  //   }.bind(this));
+  // }
+
+  handleKeyEvent(e) {
+    if (GameView.KEYS[event.keyCode]) {
+      this.ninja.jump(GameView.KEYS[event.keyCode]);
+    }
+
+    if (GameView.KEYS[event.keyCode]) {
+       this.ninja.move(GameView.KEYS[event.keyCode]);
+     }
   }
 
   update() {
@@ -11,6 +29,7 @@ class GameView {
   }
 
   start() {
+    // this.bindKeyHandlers();
     setInterval(this.update.bind(this), 20);
   }
 
@@ -20,5 +39,14 @@ class GameView {
   bindKeyHandlers() {
   }
 }
+
+GameView.KEYS = {
+  74: "J",
+  65: "A",
+  68: "D",
+  87: "W",
+  83: "S"
+};
+
 
 module.exports = GameView;

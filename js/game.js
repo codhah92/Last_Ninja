@@ -8,7 +8,7 @@ class Game {
     this.stars = [];
     this.kunais = [];
 
-    this.addStars();
+    setInterval(this.addStars.bind(this), 2000);
   }
 
   add(object) {
@@ -118,7 +118,7 @@ class Game {
 
 Game.DIM_X = 1000;
 Game.DIM_Y = 500;
-Game.TOTAL_STARS = 25;
+Game.TOTAL_STARS = 10;
 Game.BG_COLOR = "#000";
 
 module.exports = Game;
