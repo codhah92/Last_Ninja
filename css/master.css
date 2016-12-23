@@ -1,5 +1,5 @@
 body {
-  background-image: url()
+  background-image: url("http://jenruhman.com/freshjen/ninjas.jpg")
 }
 
 canvas {
@@ -7,9 +7,12 @@ canvas {
   width: 1000px;
   margin: 0 auto;
   border: 1px solid black;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 h1 {
+  color: white;
   height: 75px;
   display: block;
   width: 1000px;
@@ -18,4 +21,6 @@ h1 {
   border-top: 1px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
