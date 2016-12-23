@@ -1,14 +1,16 @@
 const Ninja = require('./ninja.js');
 const Star = require('./star.js');
 const Kunai = require('./kunai.js');
+const Background = require('./background.js');
 
 class Game {
   constructor() {
     this.ninjas = [];
     this.stars = [];
     this.kunais = [];
-
+    this.backgrounds = [];
     setInterval(this.addStars.bind(this), 2000);
+
   }
 
   add(object) {
@@ -18,6 +20,8 @@ class Game {
       this.kunais.push(object);
     } else if (object instanceof Ninja) {
       this.ninjas.push(object);
+    } else if (object instanceof Background){
+      this.backgrounds.push(object);
     } else {
       throw "Must be the wind";
     }
@@ -29,17 +33,34 @@ class Game {
     }
   }
 
-  allObjects() {
-    return [].concat(this.ninjas, this.stars, this.kunais);
+  addBackground() {
+    const background = new Background();
+    this.add(background);
   }
+
+  allObjects() {
+    return [].concat(
+      this.backgrounds,
+      this.ninjas,
+      this.stars,
+      this.kunais
+    );
+  }
+
+  // draw(ctx) {
+  //   ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+  //   ctx.fillStyle = Game.BG_COLOR;
+  //   ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+  //
+  //   this.allObjects().forEach((object) => {
+  //     object.draw(ctx);
+  //   });
+  // }
 
   draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
-    ctx.fillStyle = Game.BG_COLOR;
-    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
-
     this.allObjects().forEach((object) => {
-      object.draw(ctx);
+        object.draw(ctx);
     });
   }
 
@@ -73,6 +94,7 @@ class Game {
 
   step() {
     this.moveObjects();
+    this.keepNinjaInWalls();
     this.checkNinjaHit();
   }
 
@@ -85,7 +107,7 @@ class Game {
     } else if (object instanceof Kunai) {
       return (xCoord > 1000);
     } else if (object instanceof Ninja) {
-      return (yCoord < 0 || yCoord > 500);
+      return (yCoord < 10 || yCoord > 500 || xCoord < 10 || xCoord > 1000);
     }
   }
 
@@ -104,6 +126,13 @@ class Game {
           }
         }
       }
+    }
+  }
+
+  keepNinjaInWalls() {
+    const ninja = this.ninjas[0];
+    if (this.outOfScreen(ninja)) {
+      ninja.vel = [0, 0];
     }
   }
 

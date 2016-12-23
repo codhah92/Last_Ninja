@@ -1,3 +1,21 @@
+body {
+  background-image: url()
+}
+
 canvas {
-  border: 1px solid #ccc;
+  display: block;
+  width: 1000px;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+h1 {
+  height: 75px;
+  display: block;
+  width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
 }

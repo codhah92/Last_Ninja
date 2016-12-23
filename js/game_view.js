@@ -3,9 +3,8 @@ class GameView {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
-
+    this.background = this.game.addBackground();
     $(window).on("keydown", this.handleKeyEvent.bind(this));
-    $(window).on("keyup", this.handleKeyEvent.bind(this));
   }
 
   // bindKeyHandlers() {

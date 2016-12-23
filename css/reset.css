@@ -8,10 +8,10 @@ head, body, h1, h2, p, ul, li {
 	vertical-align: baseline;
 }
 
-
 body {
   font-family: sans-serif;
   font-size: 14px;
+  max-width: 1200px;
 }
 
 ul {

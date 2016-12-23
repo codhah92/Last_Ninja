@@ -18,6 +18,7 @@ class Ninja extends MovingObject {
   jump(key) {
     if (key === "J") {
       this.pos[1] -= 30;
+      this.vel[1] = -2;
     }
   }
 
