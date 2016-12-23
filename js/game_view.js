@@ -5,6 +5,7 @@ class GameView {
     this.ninja = this.game.makeNinja();
 
     $(window).on("keydown", this.handleKeyEvent.bind(this));
+    $(window).on("keyup", this.handleKeyEvent.bind(this));
   }
 
   // bindKeyHandlers() {
@@ -19,21 +20,19 @@ class GameView {
     }
 
     if (GameView.KEYS[event.keyCode]) {
-       this.ninja.move(GameView.KEYS[event.keyCode]);
-     }
+      this.ninja.impulse(GameView.KEYS[event.keyCode]);
+    }
   }
 
   update() {
     this.game.step();
     this.game.draw(this.ctx);
+    requestAnimationFrame(this.update.bind(this));
   }
 
   start() {
     // this.bindKeyHandlers();
-    setInterval(this.update.bind(this), 20);
-  }
-
-  animate() {
+    requestAnimationFrame(this.update.bind(this));
   }
 
   bindKeyHandlers() {

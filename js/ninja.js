@@ -21,23 +21,26 @@ class Ninja extends MovingObject {
     }
   }
 
-  move(key) {
+  impulse(key) {
     switch(key) {
       case "A":
-        this.pos[0] -= 5;
+        this.vel[0] = -2;
+        // this.vel[1] = 0;
         break;
       case "W":
-        this.pos[1] -= 5;
+        this.vel[1] = -2;
+        // this.vel[0] = 0;
         break;
       case "S":
-        this.pos[1] += 5;
+        this.vel[1] = 2;
+        // this.vel[0] = 0;
         break;
       case "D":
-        this.pos[0] += 5;
+        this.vel[0] = 2;
+        // this.vel[1] = 0;
         break;
     }
   }
-
 }
 
 module.exports = Ninja;

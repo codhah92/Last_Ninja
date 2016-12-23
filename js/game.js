@@ -71,7 +71,7 @@ class Game {
     });
   }
 
-  step () {
+  step() {
     this.moveObjects();
     this.checkNinjaHit();
   }
