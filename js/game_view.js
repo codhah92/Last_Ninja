@@ -16,17 +16,30 @@ class GameView {
   handleKeyEvent(e) {
     if (GameView.KEYS[event.keyCode]) {
       this.ninja.jump(GameView.KEYS[event.keyCode]);
-    }
-
-    if (GameView.KEYS[event.keyCode]) {
-      this.ninja.impulse(GameView.KEYS[event.keyCode]);
+      this.ninja.float(GameView.KEYS[event.keyCode]);
     }
   }
 
   update() {
-    this.game.step();
-    this.game.draw(this.ctx);
-    requestAnimationFrame(this.update.bind(this));
+    if (!this.game.lose) {
+      this.game.step();
+      this.game.draw(this.ctx);
+      requestAnimationFrame(this.update.bind(this));
+    } else {
+      // this.renderLose();
+    }
+  }
+
+  renderLose() {
+
+  }
+
+  renderStarCount() {
+
+  }
+
+  renderPointsCount() {
+    
   }
 
   start() {
@@ -43,7 +56,8 @@ GameView.KEYS = {
   65: "A",
   68: "D",
   87: "W",
-  83: "S"
+  83: "S",
+  75: "K"
 };
 
 

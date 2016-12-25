@@ -9,8 +9,8 @@ class Game {
     this.stars = [];
     this.kunais = [];
     this.backgrounds = [];
+    this.lose = false;
     setInterval(this.addStars.bind(this), 2000);
-
   }
 
   add(object) {
@@ -60,7 +60,7 @@ class Game {
   draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     this.allObjects().forEach((object) => {
-        object.draw(ctx);
+      object.draw(ctx);
     });
   }
 
@@ -93,9 +93,21 @@ class Game {
   }
 
   step() {
-    this.moveObjects();
-    this.keepNinjaInWalls();
-    this.checkNinjaHit();
+    if (!this.lose) {
+      this.moveObjects();
+      this.keepNinjaInWalls();
+      this.checkCollisions();
+      // setInterval(this.addStars.bind(this), 2000); Hard Mode
+    }
+  }
+
+  removeOutOfBoundsStars() {
+    for (let i = 0; i < this.stars.length; i++) {
+      const star = this.stars[i];
+      if ((star instanceof Star) && (this.outOfScreen(star))){
+        this.remove(star);
+      }
+    }
   }
 
   outOfScreen(object) {
@@ -111,7 +123,7 @@ class Game {
     }
   }
 
-  checkNinjaHit() {
+  checkCollisions() {
     const allObjects = this.allObjects();
     for (let i = 0; i < allObjects.length; i++) {
       for (let j = 0; j < allObjects.length; j++) {
@@ -123,16 +135,37 @@ class Game {
           if (firstObject.isCollidedWith(secondObject)) {
             firstObject.remove();
             secondObject.remove();
+            this.lose = true;
+            this.refresh();
+          }
+        }
+
+        if ((firstObject instanceof Kunai) && (secondObject instanceof Star) ||
+            ((firstObject instanceof Star) && (secondObject instanceof Kunai))){
+          if (firstObject.isCollidedWith(secondObject)) {
+            firstObject.remove();
+            secondObject.remove();
           }
         }
       }
     }
   }
+  refresh() {
+    this.ninjas = [];
+    this.stars = [];
+    this.kunais = [];
+  }
+
+  renderLostGame() {
+
+  }
 
   keepNinjaInWalls() {
     const ninja = this.ninjas[0];
-    if (this.outOfScreen(ninja)) {
-      ninja.vel = [0, 0];
+    if (ninja instanceof Ninja) {
+      if (this.outOfScreen(ninja)) {
+        ninja.vel = [0, 0];
+      }
     }
   }
 
@@ -141,6 +174,8 @@ class Game {
       this.ninjas.splice(this.ninjas.indexOf(object), 1);
     } else if (object instanceof Star) {
       this.stars.splice(this.stars.indexOf(object), 1);
+    } else if (object instanceof Kunai) {
+      this.kunais.splice(this.kunais.indexOf(object), 1);
     }
   }
 }
@@ -149,5 +184,6 @@ Game.DIM_X = 1000;
 Game.DIM_Y = 500;
 Game.TOTAL_STARS = 10;
 Game.BG_COLOR = "#000";
+Game.TOTAL_KUNAIS = 5;
 
 module.exports = Game;
