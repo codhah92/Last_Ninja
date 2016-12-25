@@ -24,6 +24,7 @@ class GameView {
     if (!this.game.lose) {
       this.game.step();
       this.renderPointsCount();
+      this.renderKunaiCount();
       this.game.draw(this.ctx);
       requestAnimationFrame(this.update.bind(this));
     } else {
@@ -35,8 +36,8 @@ class GameView {
 
   }
 
-  renderStarCount() {
-
+  renderKunaiCount() {
+    $('.kunais').text(this.ninja.kunais);
   }
 
   renderPointsCount() {
