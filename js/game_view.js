@@ -23,6 +23,7 @@ class GameView {
   update() {
     if (!this.game.lose) {
       this.game.step();
+      this.renderPointsCount();
       this.game.draw(this.ctx);
       requestAnimationFrame(this.update.bind(this));
     } else {
@@ -39,11 +40,12 @@ class GameView {
   }
 
   renderPointsCount() {
-    
+    $('.points').text(this.game.points);
   }
 
   start() {
     // this.bindKeyHandlers();
+    this.renderPointsCount();
     requestAnimationFrame(this.update.bind(this));
   }
 

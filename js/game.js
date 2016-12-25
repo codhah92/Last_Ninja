@@ -9,6 +9,7 @@ class Game {
     this.stars = [];
     this.kunais = [];
     this.backgrounds = [];
+    this.points = 0;
     this.lose = false;
     setInterval(this.addStars.bind(this), 2000);
   }
@@ -25,6 +26,11 @@ class Game {
     } else {
       throw "Must be the wind";
     }
+  }
+
+  addPoints() {
+    this.points += 10;
+    console.log(this.points);
   }
 
   addStars() {
@@ -46,16 +52,6 @@ class Game {
       this.kunais
     );
   }
-
-  // draw(ctx) {
-  //   ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
-  //   ctx.fillStyle = Game.BG_COLOR;
-  //   ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
-  //
-  //   this.allObjects().forEach((object) => {
-  //     object.draw(ctx);
-  //   });
-  // }
 
   draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
@@ -95,6 +91,7 @@ class Game {
   step() {
     if (!this.lose) {
       this.moveObjects();
+      this.addPoints();
       this.keepNinjaInWalls();
       this.checkCollisions();
       // setInterval(this.addStars.bind(this), 2000); Hard Mode
