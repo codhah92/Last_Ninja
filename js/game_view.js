@@ -18,13 +18,17 @@ class GameView {
   }
 
   handleKeyEvent(e) {
-    if (e.keyCode === 84) {
-      this.toggleSound();
-    }
+    if (!this.game.lose) {
+      if (e.keyCode === 84) {
+        this.toggleSound();
+      }
 
-    if (GameView.KEYS[e.keyCode]) {
-      this.ninja.jump(GameView.KEYS[e.keyCode]);
-      this.ninja.ninjaAction(GameView.KEYS[e.keyCode]);
+      if (GameView.KEYS[e.keyCode]) {
+        this.ninja.jump(GameView.KEYS[e.keyCode]);
+        this.ninja.ninjaAction(GameView.KEYS[e.keyCode]);
+      }
+    } else {
+      return;
     }
   }
 

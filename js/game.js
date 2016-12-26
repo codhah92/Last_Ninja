@@ -121,7 +121,7 @@ class Game {
     } else if (object instanceof Kunai) {
       return (xCoord > 1000);
     } else if (object instanceof Ninja) {
-      return (yCoord < 10 || yCoord > 500 || xCoord < 10 || xCoord > 1000);
+      return (yCoord < 0 || yCoord > 490 || xCoord < 10 || xCoord > 1000);
     }
   }
 

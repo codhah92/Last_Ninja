@@ -19,7 +19,6 @@ class Ninja extends MovingObject {
     options.color = DEFAULTS.COLOR;
     super(options);
     this.kunais = 3;
-    this.unlimitedMode = true;
   }
 
   draw(ctx) {
@@ -34,28 +33,42 @@ class Ninja extends MovingObject {
   }
 
   jump(key) {
+    const jump = new Audio('./assets/audio/jump.mp3');
     if (key === "J") {
-      this.pos[1] -= 30;
-      this.vel[1] = -2;
+      if (this.pos[1] < 30){
+        return;
+      } else {
+        jump.play();
+        this.pos[1] -= 30;
+        this.vel[1] = -2;
+      }
     }
   }
 
   ninjaAction(key) {
     switch(key) {
       case "A":
-        this.vel[0] = -2;
+        if (this.pos[0] > 10){
+          this.vel[0] = -2;
+        }
         // this.vel[1] = 0;
         break;
       case "W":
-        this.vel[1] = -2;
+        if (this.pos[1] > 10) {
+          this.vel[1] = -2;
+        }
         // this.vel[0] = 0;
         break;
       case "S":
-        this.vel[1] = 2;
+        if (this.pos[1] < 490) {
+          this.vel[1] = 2;
+        }
         // this.vel[0] = 0;
         break;
       case "D":
-        this.vel[0] = 2;
+        if (this.pos[0] < 990) {
+          this.vel[0] = 2;
+        }
         // this.vel[1] = 0;
         break;
       case "K":
@@ -65,6 +78,7 @@ class Ninja extends MovingObject {
   }
 
   throwKunai() {
+    const kunaiSound = new Audio('./assets/audio/kunai_throw.mp3');
     if (this.kunais > 0) {
       this.kunais--;
       const kunai = new Kunai({
@@ -74,7 +88,6 @@ class Ninja extends MovingObject {
       });
 
       this.game.add(kunai);
-      const kunaiSound = new Audio('./assets/audio/kunai_throw.mp3');
       kunaiSound.play();
       return;
     } else {
