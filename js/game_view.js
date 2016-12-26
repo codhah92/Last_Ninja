@@ -6,6 +6,7 @@ class GameView {
     this.game = game;
     this.ninja = this.game.makeNinja();
     this.background = this.game.addBackground(game);
+    this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
     $(window).on("keydown", this.handleKeyEvent.bind(this));
     $('.play').on("click", this.handleNewGame.bind(this));
     $('.play-again').on("click", this.handlePlayAgain.bind(this));
@@ -81,6 +82,8 @@ class GameView {
   }
 
   start() {
+    this.themeSong.load();
+    this.themeSong.play();
     this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     this.game = null;
     this.game = new Game();
@@ -92,6 +95,8 @@ class GameView {
   }
 
   load() {
+    const introSong = new Audio('./assets/audio/intro.mp3');
+    introSong.play();
     const modal = document.getElementById('game-modal');
     modal.style.display = "block";
   }

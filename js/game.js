@@ -126,9 +126,10 @@ class Game {
       for (let j = 0; j < allObjects.length; j++) {
         const firstObject = allObjects[i];
         const secondObject = allObjects[j];
-
         if ((firstObject instanceof Ninja) && (secondObject instanceof Star)){
           if (firstObject.isCollidedWith(secondObject)) {
+            const ninjaHit = new Audio('./assets/audio/ninja_hit.mp3');
+            ninjaHit.play();
             firstObject.remove();
             secondObject.remove();
             this.lose = true;
@@ -138,6 +139,8 @@ class Game {
 
         if ((firstObject instanceof Star) && (secondObject instanceof Kunai)){
           if (firstObject.isCollidedWith(secondObject)) {
+            const kunaiStarHit = new Audio('./assets/audio/kunai_star_hit.mp3');
+            kunaiStarHit.play();
             firstObject.remove();
             secondObject.remove();
             this.points += 500;
@@ -151,10 +154,6 @@ class Game {
     this.stars = [];
     this.kunais = [];
     Game.TOTAL_STARS = 10;
-  }
-
-  renderLostGame() {
-
   }
 
   keepNinjaInWalls() {

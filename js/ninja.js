@@ -58,7 +58,9 @@ class Ninja extends MovingObject {
         // this.vel[1] = 0;
         break;
       case "K":
+        const kunaiSound = new Audio('./assets/audio/kunai_throw.mp3');
         this.throwKunai();
+        kunaiSound.play();
         break;
     }
   }
