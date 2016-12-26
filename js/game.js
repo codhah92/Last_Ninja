@@ -152,7 +152,7 @@ class Game {
   }
 
   renderLostGame() {
-
+    
   }
 
   keepNinjaInWalls() {
