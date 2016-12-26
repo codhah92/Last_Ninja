@@ -94,6 +94,7 @@ class Game {
       this.addPoints();
       this.keepNinjaInWalls();
       this.checkCollisions();
+      this.removeOutOfBoundsStars();
       // setInterval(this.addStars.bind(this), 2000); Hard Mode
     }
   }
@@ -101,7 +102,7 @@ class Game {
   removeOutOfBoundsStars() {
     for (let i = 0; i < this.stars.length; i++) {
       const star = this.stars[i];
-      if ((star instanceof Star) && (this.outOfScreen(star))){
+      if (this.outOfScreen(star)){
         this.remove(star);
       }
     }
@@ -140,6 +141,7 @@ class Game {
           if (firstObject.isCollidedWith(secondObject)) {
             firstObject.remove();
             secondObject.remove();
+            this.points += 500;
           }
         }
       }
@@ -152,7 +154,7 @@ class Game {
   }
 
   renderLostGame() {
-    
+
   }
 
   keepNinjaInWalls() {

@@ -1,3 +1,5 @@
+const Game = require('./game.js');
+
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
@@ -6,7 +8,6 @@ class GameView {
     this.background = this.game.addBackground();
     $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
-
   // bindKeyHandlers() {
   //   $(window).on("keydown", function(e) {
   //     this.handleKeyEvent(e);
@@ -20,9 +21,21 @@ class GameView {
     }
   }
 
+  nextLevel() {
+    if (this.game.points % 10000 === 0) {
+      this.ninja.kunais += 1;
+      Game.TOTAL_STARS += 3;
+    } else if (this.game.points % 30000 === 0) {
+      this.ninja.kunais += 5;
+      Game.TOTAL_STARS += 3;
+    }
+  }
+
+
   update() {
     if (!this.game.lose) {
       this.game.step();
+      this.nextLevel();
       this.renderPointsCount();
       this.renderKunaiCount();
       this.game.draw(this.ctx);

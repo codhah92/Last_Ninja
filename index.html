@@ -3,13 +3,28 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./css/master.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script src="./bundle.js"></script>
-    <title>Ninja</title>
+    <title>Last Ninja</title>
   </head>
   <body>
-    <h1>Ninja</h1>
+    <h1>Last*Ninja</h1>
     <div class="canvas-container">
+      <div id="game-modal" class="gameplay-modal">
+        <div class="modal-content">
+          <span class="close">Exit To Game</span>
+          <p>How to Play: </p>
+          <br/>
+          <p>WASD: Move (UP/LEFT/DOWN/RIGHT)</p>
+          <br/>
+          <p>J: Jump</p>
+          <br/>
+          <p>K: Throw Kunai</p>
+          <br/>
+          <p>L: Special Attack</p>
+        </div>
+      </div>
       <canvas id="canvas" width="1000" height="500"></canvas>
       <section class="game-details">
         <label class="points-label">Score:
@@ -18,13 +33,8 @@
         <label class="kunais-label">Kunais:
           <span class="kunais"></span>
         </label>
-        <label class="about-label">GamePlay
-
-        </label>
-
-        <label class="high-scores-label">High Scores
-
-        </label>
+        <label id="gameplay" class="gameplay-label">GamePlay</label>
+        <label class="high-scores-label">High Scores</label>
       </section>
     </div>
   </body>
