@@ -1,7 +1,7 @@
 const Game = require('./game.js');
 
 class GameView {
-  constructor(game, ctx) {
+  constructor(game, ctx, databse) {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
@@ -18,11 +18,10 @@ class GameView {
   }
 
   handleKeyEvent(e) {
+    if (e.keyCode === 84) {
+      this.toggleSound();
+    }
     if (!this.game.lose) {
-      if (e.keyCode === 84) {
-        this.toggleSound();
-      }
-
       if (GameView.KEYS[e.keyCode]) {
         this.ninja.jump(GameView.KEYS[e.keyCode]);
         this.ninja.ninjaAction(GameView.KEYS[e.keyCode]);

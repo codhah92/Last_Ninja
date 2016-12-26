@@ -64,3 +64,16 @@
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.4);
 }
+
+.modal-header {
+  font-weight: bolder;
+  font-size: 20px;
+  text-align: center;
+  color: red;
+  line-height: 30px;
+}
+
+.modal-author {
+  font-size: 12px;
+  text-align: center;
+}

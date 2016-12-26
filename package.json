@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/codhah92/Ninja/issues"
   },
-  "homepage": "https://github.com/codhah92/Ninja#readme"
+  "homepage": "https://github.com/codhah92/Ninja#readme",
+  "dependencies": {
+    "firebase": "^3.6.4"
+  }
 }
