@@ -19,6 +19,7 @@ class Ninja extends MovingObject {
     options.color = DEFAULTS.COLOR;
     super(options);
     this.kunais = 3;
+    this.unlimitedMode = true;
   }
 
   draw(ctx) {
@@ -39,7 +40,7 @@ class Ninja extends MovingObject {
     }
   }
 
-  float(key) {
+  ninjaAction(key) {
     switch(key) {
       case "A":
         this.vel[0] = -2;
@@ -58,9 +59,7 @@ class Ninja extends MovingObject {
         // this.vel[1] = 0;
         break;
       case "K":
-        const kunaiSound = new Audio('./assets/audio/kunai_throw.mp3');
         this.throwKunai();
-        kunaiSound.play();
         break;
     }
   }
@@ -75,6 +74,8 @@ class Ninja extends MovingObject {
       });
 
       this.game.add(kunai);
+      const kunaiSound = new Audio('./assets/audio/kunai_throw.mp3');
+      kunaiSound.play();
       return;
     } else {
       return;

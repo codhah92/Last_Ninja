@@ -11,7 +11,12 @@ class Game {
     this.backgrounds = [];
     this.points = 0;
     this.lose = true;
-    setInterval(this.addStars.bind(this), 2000);
+    this.unlimitedMode = false;
+    if (this.unlimitedMode) {
+      setInterval(this.addStars.bind(this), 100);
+    } else {
+      setInterval(this.addStars.bind(this), 2000);
+    }
   }
 
   add(object) {

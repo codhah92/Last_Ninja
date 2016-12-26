@@ -6,6 +6,7 @@ class GameView {
     this.game = game;
     this.ninja = this.game.makeNinja();
     this.background = this.game.addBackground(game);
+    this.songIsPlaying = true;
     this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
     $(window).on("keydown", this.handleKeyEvent.bind(this));
     $('.play').on("click", this.handleNewGame.bind(this));
@@ -13,12 +14,17 @@ class GameView {
     this.closePlayAgainModal = this.closePlayAgainModal.bind(this);
     this.closePlayNowModal = this.closePlayNowModal.bind(this);
     this.renderLose = this.renderLose.bind(this);
+    this.toggleSound = this.toggleSound.bind(this);
   }
 
   handleKeyEvent(e) {
-    if (GameView.KEYS[event.keyCode]) {
-      this.ninja.jump(GameView.KEYS[event.keyCode]);
-      this.ninja.float(GameView.KEYS[event.keyCode]);
+    if (e.keyCode === 84) {
+      this.toggleSound();
+    }
+
+    if (GameView.KEYS[e.keyCode]) {
+      this.ninja.jump(GameView.KEYS[e.keyCode]);
+      this.ninja.ninjaAction(GameView.KEYS[e.keyCode]);
     }
   }
 
@@ -100,6 +106,16 @@ class GameView {
     const modal = document.getElementById('game-modal');
     modal.style.display = "block";
   }
+
+  toggleSound() {
+    if (this.songIsPlaying) {
+      this.songIsPlaying = false;
+      this.themeSong.pause();
+    } else {
+      this.songIsPlaying = true;
+      this.themeSong.play();
+    }
+  }
 }
 
 GameView.KEYS = {
@@ -108,7 +124,8 @@ GameView.KEYS = {
   68: "D",
   87: "W",
   83: "S",
-  75: "K"
+  75: "K",
+  84: "T"
 };
 
 
