@@ -25,10 +25,12 @@ canvas {
 h1 {
   color: white;
   height: 50px;
+  padding-top: 20px;
   display: block;
   width: 1000px;
   margin: 0 auto;
   text-align: center;
+  font-size: 24px;
 }
 
 .game-details {

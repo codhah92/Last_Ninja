@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/master.css">
     <link rel="stylesheet" href="./css/modal.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
@@ -9,22 +10,29 @@
     <title>Last Ninja</title>
   </head>
   <body>
+    <div id="game-modal" class="gameplay-modal">
+      <div class="modal-content">
+        <span class="close">Exit To Game</span>
+        <br/><br/><br/>
+        <p>Takahasi is the last ninja of the Itada Clan. He must return to his
+        village by nightfall to carry on the Itada legacy. Can you help him get home?</p>
+        <br/>
+        <p>Instructions: Dodge shurikens to survive. Use kunais to block shurikens that
+        cannot be dodged. Special attacks clear all shurikens!</p>
+        <br/><br/>
+        <p>Controls: </p>
+        <br/>
+        <p>WASD: Move (UP/LEFT/DOWN/RIGHT)</p>
+        <br/>
+        <p>J: Jump</p>
+        <br/>
+        <p>K: Throw Kunai</p>
+        <br/>
+        <p>L: Special Attack</p>
+      </div>
+    </div>
     <h1>Last*Ninja</h1>
     <div class="canvas-container">
-      <div id="game-modal" class="gameplay-modal">
-        <div class="modal-content">
-          <span class="close">Exit To Game</span>
-          <p>How to Play: </p>
-          <br/>
-          <p>WASD: Move (UP/LEFT/DOWN/RIGHT)</p>
-          <br/>
-          <p>J: Jump</p>
-          <br/>
-          <p>K: Throw Kunai</p>
-          <br/>
-          <p>L: Special Attack</p>
-        </div>
-      </div>
       <canvas id="canvas" width="1000" height="500"></canvas>
       <section class="game-details">
         <label class="points-label">Score:
