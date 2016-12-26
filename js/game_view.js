@@ -7,12 +7,12 @@ class GameView {
     this.ninja = this.game.makeNinja();
     this.background = this.game.addBackground();
     $(window).on("keydown", this.handleKeyEvent.bind(this));
+    $('.play').on("click", this.handleNewGame.bind(this));
+    $('.play-again').on("click", this.handlePlayAgain.bind(this));
+    this.closePlayAgainModal = this.closePlayAgainModal.bind(this);
+    this.closePlayNowModal = this.closePlayNowModal.bind(this);
+    this.renderLose = this.renderLose.bind(this);
   }
-  // bindKeyHandlers() {
-  //   $(window).on("keydown", function(e) {
-  //     this.handleKeyEvent(e);
-  //   }.bind(this));
-  // }
 
   handleKeyEvent(e) {
     if (GameView.KEYS[event.keyCode]) {
@@ -41,12 +41,13 @@ class GameView {
       this.game.draw(this.ctx);
       requestAnimationFrame(this.update.bind(this));
     } else {
-      // this.renderLose();
+      this.renderLose();
     }
   }
 
   renderLose() {
-
+    const loseModal = document.getElementById('lose-modal');
+    loseModal.style.display = "block";
   }
 
   renderKunaiCount() {
@@ -57,13 +58,43 @@ class GameView {
     $('.points').text(this.game.points);
   }
 
+  handleNewGame() {
+    if (this.game.lose) {
+      this.closePlayNowModal();
+      this.game.lose = false;
+      this.start();
+    }
+  }
+
+  handlePlayAgain() {
+    this.closePlayAgainModal();
+    this.start();
+  }
+
+  closePlayNowModal() {
+    const modal = document.getElementById('game-modal');
+    modal.style.display = "none";
+  }
+
+  closePlayAgainModal() {
+    const modal = document.getElementById('lose-modal');
+    modal.style.display = "none";
+  }
+
   start() {
-    // this.bindKeyHandlers();
+    this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    this.game = null;
+    this.game = new Game();
+    this.ninja = this.game.makeNinja();
+    this.game.addBackground();
+    this.game.lose = false;
     this.renderPointsCount();
     requestAnimationFrame(this.update.bind(this));
   }
 
-  bindKeyHandlers() {
+  load() {
+    const modal = document.getElementById('game-modal');
+    modal.style.display = "block";
   }
 }
 

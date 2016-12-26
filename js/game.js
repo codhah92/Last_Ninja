@@ -10,7 +10,7 @@ class Game {
     this.kunais = [];
     this.backgrounds = [];
     this.points = 0;
-    this.lose = false;
+    this.lose = true;
     setInterval(this.addStars.bind(this), 2000);
   }
 
@@ -30,7 +30,6 @@ class Game {
 
   addPoints() {
     this.points += 10;
-    console.log(this.points);
   }
 
   addStars() {
@@ -180,7 +179,6 @@ class Game {
 Game.DIM_X = 1000;
 Game.DIM_Y = 500;
 Game.TOTAL_STARS = 10;
-Game.BG_COLOR = "#000";
 Game.TOTAL_KUNAIS = 5;
 
 module.exports = Game;

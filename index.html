@@ -12,8 +12,6 @@
   <body>
     <div id="game-modal" class="gameplay-modal">
       <div class="modal-content">
-        <span class="close">Exit To Game</span>
-        <br/><br/><br/>
         <p>Takahasi is the last ninja of the Itada Clan. He must return to his
         village by nightfall to carry on the Itada legacy. Can you help him get home?</p>
         <br/>
@@ -29,8 +27,19 @@
         <p>K: Throw Kunai</p>
         <br/>
         <p>L: Special Attack</p>
+        <br/>
+        <button class="play">Play Now</button>
       </div>
     </div>
+
+    <div id="lose-modal" class="lose-modal">
+      <div class="modal-content">
+        <p>Takahashi has been slain. You have failed.</p>
+        <br/>
+        <button class="play-again">Play Again</button>
+      </div>
+    </div>
+
     <h1>Last*Ninja</h1>
     <div class="canvas-container">
       <canvas id="canvas" width="1000" height="500"></canvas>
