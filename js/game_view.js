@@ -61,7 +61,6 @@ class GameView {
   handleNewGame() {
     if (this.game.lose) {
       this.closePlayNowModal();
-      this.game.lose = false;
       this.start();
     }
   }

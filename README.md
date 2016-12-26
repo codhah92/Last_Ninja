@@ -27,21 +27,20 @@ This will be a single screen application with navigation links to the game's Git
 This project will be implemented with the following technologies:
 
 - Vanilla JavaScript and `jQuery` to implement game structure and logic,
-- `Easel.js` with `HTML5 Canvas` for DOM manipulation and rendering,
+- `HTML5 Canvas` for DOM manipulation and rendering,
 - Webpack to bundle and serve various scripts.
 
 In addition to the webpack entry file, the following scripts will be included:
-- [ ] `game.js`
-- [ ] `game_view.js`
-- [ ] `ninja.js`
-- [ ] `moving_object.js`
+- [x] `game.js`
+- [x] `game_view.js`
+- [x] `ninja.js`
+- [x] `moving_object.js`
 
 ### Implementation Timeline
 
 **Day 1**:
-- Setup Node modules, webpack and `Easel.js`
+- Setup Node modules and webpack
 - Write a basic entry file and the bare bones of all scripts
-- Learn the basics of `Easel.js`
 - Be able to understand how to render an object on `Canvas` and move object and environment
 
 **Day 2**:
@@ -65,6 +64,6 @@ In addition to the webpack entry file, the following scripts will be included:
 
 ### Bonus features
 
-- [ ] Left and right movement of ninja for a more dynamic game
-- [ ] Ninja can throw stars to deflect enemy stars
+- [x] Left and right movement of ninja for a more dynamic game
+- [x] Ninja can throw kunais to deflect enemy stars
 - [ ] HP bar/Power up options

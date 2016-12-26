@@ -7,13 +7,15 @@ document.addEventListener("DOMContentLoaded", function(){
   canvasEl.height = Game.DIM_Y;
 
   const modal = document.getElementById('game-modal');
+  const loseModal = document.getElementById('lose-modal');
   const btn = document.getElementById("gameplay");
   btn.onclick = function() {
       modal.style.display = "block";
   };
   window.onclick = function(event) {
-      if (event.target === modal) {
+      if (event.target === modal || event.target === loseModal) {
           modal.style.display = "none";
+          loseModal.style.display = "none";
       }
   };
 

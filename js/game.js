@@ -150,6 +150,7 @@ class Game {
     this.ninjas = [];
     this.stars = [];
     this.kunais = [];
+    Game.TOTAL_STARS = 10;
   }
 
   renderLostGame() {
