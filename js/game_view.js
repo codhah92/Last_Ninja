@@ -5,7 +5,7 @@ class GameView {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
-    this.background = this.game.addBackground();
+    this.background = this.game.addBackground(game);
     $(window).on("keydown", this.handleKeyEvent.bind(this));
     $('.play').on("click", this.handleNewGame.bind(this));
     $('.play-again').on("click", this.handlePlayAgain.bind(this));
@@ -25,7 +25,7 @@ class GameView {
     if (this.game.points % 10000 === 0) {
       this.ninja.kunais += 1;
       Game.TOTAL_STARS += 3;
-    } else if (this.game.points % 30000 === 0) {
+    } else if (this.game.points % 25000 === 0) {
       this.ninja.kunais += 5;
       Game.TOTAL_STARS += 3;
     }

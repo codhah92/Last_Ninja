@@ -38,8 +38,8 @@ class Game {
     }
   }
 
-  addBackground() {
-    const background = new Background();
+  addBackground(game) {
+    const background = new Background({ game: this});
     this.add(background);
   }
 

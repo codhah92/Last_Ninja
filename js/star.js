@@ -4,6 +4,8 @@ const Kunai = require('./kunai.js');
 const Sprite = require('./sprite.js');
 const StarImage = new Image();
 StarImage.src = "./assets/weapons.png";
+const StarImage2 = new Image();
+StarImage2.src = "./assets/weapons2.png";
 
 const DEFAULTS = {
   COLOR: "#ff1a1a",
@@ -27,8 +29,21 @@ class Star extends MovingObject {
       height: 60,
       image: StarImage
     });
-    ctx.drawImage(star.image, 300, 600, star.width, star.height,
-      this.pos[0] - 20, this.pos[1] - 20, star.width, star.height);
+
+    const star2 = Sprite({
+      context: ctx,
+      width: 60,
+      height: 40,
+      image: StarImage2
+    });
+
+    if (this.game.points < 20000) {
+      ctx.drawImage(star.image, 300, 600, star.width, star.height,
+        this.pos[0] - 20, this.pos[1] - 20, star.width, star.height);
+    } else {
+      ctx.drawImage(star2.image, 4, 15, star2.width, star2.height,
+        this.pos[0] - 20, this.pos[1] - 20, star2.width, star2.height);
+    }
   }
 }
 
