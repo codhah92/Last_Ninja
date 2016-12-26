@@ -127,8 +127,7 @@ class Game {
         const firstObject = allObjects[i];
         const secondObject = allObjects[j];
 
-        if ((firstObject instanceof Star) && (secondObject instanceof Ninja) ||
-            ((firstObject instanceof Ninja) && (secondObject instanceof Star))){
+        if ((firstObject instanceof Ninja) && (secondObject instanceof Star)){
           if (firstObject.isCollidedWith(secondObject)) {
             firstObject.remove();
             secondObject.remove();
@@ -137,8 +136,7 @@ class Game {
           }
         }
 
-        if ((firstObject instanceof Kunai) && (secondObject instanceof Star) ||
-            ((firstObject instanceof Star) && (secondObject instanceof Kunai))){
+        if ((firstObject instanceof Star) && (secondObject instanceof Kunai)){
           if (firstObject.isCollidedWith(secondObject)) {
             firstObject.remove();
             secondObject.remove();
