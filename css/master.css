@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'LastNinja'; /*a name to be used later*/
-    src: url('../assets/lastninja.ttf'); /*URL to font*/
+    font-family: 'LastNinja';
+    src: url('../assets/lastninja.ttf');
 }
 
 body {

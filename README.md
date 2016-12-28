@@ -6,7 +6,7 @@
 
 Our ninjas never get tired. However, ninja stars do hurt them. Ninja is an 'Endless Flyer' inspired by the addictive worldwide hit, Flappy Bird. Instead of dodging immobile pipes, however, our ninjas must dodge moving ninja stars sent from enemy ninjas. Help our ninjas get back to their village!
 
-### Functionality & MVP  
+### Functionality & MVP
 
 With Ninja, users will be able to:
 
