@@ -1,71 +1,74 @@
 ## Ninja
 
-[Live](https://codhah92.github.io/Last_Ninja/)
+[Play Last Ninja](https://codhah92.github.io/Last_Ninja/)
 
 ### Background
 
-Our ninjas never get tired. However, ninja stars do hurt them. Ninja is an 'Endless Flyer' inspired by the addictive worldwide hit, Flappy Bird. Instead of dodging immobile pipes, however, our ninjas must dodge moving ninja stars sent from enemy ninjas. Help our ninjas get back to their village!
+Takahashi is the last ninja on Earth. He must dodge ninja stars sent from enemy ninjas and reach his home village.
 
-### Functionality & MVP
+Last Ninja is an 'Endless Flyer' inspired by Asteroids and Flappy Bird. It was developed in JavaScript and uses jQuery for DOM manipulation and HTML5 Canvas for smooth 2D rendering.
 
-With Ninja, users will be able to:
+![main](assets/last_ninja.png)
 
-- [ ] Navigate through forests while dodging ninja stars
-- [ ] Understand rules and commands through a modal
-- [ ] Bonus: Select an avatar of their choice
+### How To Play
 
-This project will also include:
+A single ninja star will lead to Takahashi's demise. Press `W, A, S, D` to move `UP, LEFT, DOWN, RIGHT`, respectively. Press `K` to throw a kunai knife to block an incoming ninja star. Press `J` to rapidly jump a small, vertical distance. Press `T` to toggle music. Help Takahashi get back to his village!
 
-- [ ] A Production README
+### Performance Features
 
-### Wireframes
+#### Scrolling Background
 
-This will be a single screen application with navigation links to the game's Github, my LinkedIn, and the About modal.
+A scrolling background was created using the drawImage function from HTML5 Canvas. By adding two identical background images
+and immediately repositioning the x-coordinate to 0 once the x-coordinate reached the end of the first image, I was able to create the illusion of a background in perpetual motion.
 
-<img src="./docs/main.png" />
+```javascript
+draw(ctx) {
+  const imageRepository = new function() {
+    this.background = new Image();
+    this.background.src = "assets/ninja_map.jpg";
+  };
 
-### Architecture and Technologies
+  ctx.drawImage(
+    imageRepository.background,
+    this.xPos + this.width,
+    this.yPos,
+    this.width,
+    this.height
+  );
 
-This project will be implemented with the following technologies:
+  ctx.drawImage(
+    imageRepository.background,
+    this.xPos + this.width,
+    this.yPos,
+    this.width,
+    this.height
+  );
 
-- Vanilla JavaScript and `jQuery` to implement game structure and logic,
-- `HTML5 Canvas` for DOM manipulation and rendering,
-- Webpack to bundle and serve various scripts.
+  this.move();
+  if (this.xPos < -1400){
+    this.xPos = 0;
+  }
+}
 
-In addition to the webpack entry file, the following scripts will be included:
-- [x] `game.js`
-- [x] `game_view.js`
-- [x] `ninja.js`
-- [x] `moving_object.js`
+move() {
+  this.xPos += this.speed;
+}
+```
 
-### Implementation Timeline
+#### Audio / Music Toggling
 
-**Day 1**:
-- Setup Node modules and webpack
-- Write a basic entry file and the bare bones of all scripts
-- Be able to understand how to render an object on `Canvas` and move object and environment
+Sound effects and music toggling were controlled with JavaScript's HTML5AudioElement Web API. Audio files were imported as mp3 files. Music toggling was enabled through API functions including `pause`, `play`, and `load`.
 
-**Day 2**:
+```javascript
+  this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
 
-- Build `game`, `game_view`, `moving_object`, `ninja` in that order
-- Be able to move ninja up and down
-- Be able to trigger proper responses to collisions
-- Have environment moving to left at constant speed
-
-**Day 3**:
-
-- Create backend to allow for global high score board
-- Develop About modal with instructions and details
-- Style visuals
-
-
-**Day 4**:
-
-- Continue styling and refactor code
-- Work on bonus features
-
-### Bonus features
-
-- [x] Left and right movement of ninja for a more dynamic game
-- [x] Ninja can throw kunais to deflect enemy stars
-- [ ] HP bar/Power up options
+  toggleSound() {
+    if (this.songIsPlaying) {
+      this.songIsPlaying = false;
+      this.themeSong.pause();
+    } else {
+      this.songIsPlaying = true;
+      this.themeSong.play();
+    }
+  }
+```

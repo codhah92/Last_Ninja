@@ -32,10 +32,10 @@ class GameView {
   }
 
   nextLevel() {
-    if (this.game.points % 10000 === 0) {
+    if (this.game.points % 25000 === 0) {
       this.ninja.kunais += 1;
       Game.TOTAL_STARS += 3;
-    } else if (this.game.points % 25000 === 0) {
+    } else if (this.game.points % 10000 === 0) {
       this.ninja.kunais += 5;
       Game.TOTAL_STARS += 3;
     }
