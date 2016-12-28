@@ -4,7 +4,7 @@
 }
 
 body {
-  background-image: url("https://jenruhman.com/freshjen/ninjas.jpg");
+  background-image: url('../assets/frontpage_background.jpg');
   font-family: 'LastNinja';
 }
 
