@@ -1,6 +1,6 @@
 ## Ninja
 
-[live:](https://codhah92.github.io/last_ninja/)
+[Live](https://codhah92.github.io/Last_Ninja/)
 
 ### Background
 
