@@ -66,22 +66,9 @@
 	  canvasEl.width = Game.DIM_X;
 	  canvasEl.height = Game.DIM_Y;
 	
-	  // const modal = document.getElementById('game-modal');
-	  // const loseModal = document.getElementById('lose-modal');
-	  // const btn = document.getElementById("gameplay");
-	  // btn.onclick = function() {
-	  //     modal.style.display = "block";
-	  // };
-	  // window.onclick = function(event) {
-	  //     if (event.target === modal || event.target === loseModal) {
-	  //         modal.style.display = "none";
-	  //         loseModal.style.display = "none";
-	  //     }
-	  // };
-	
 	  var ctx = canvasEl.getContext("2d");
 	  var game = new Game();
-	  new GameView(game, ctx).load();
+	  new GameView(game, ctx, database).load();
 	});
 
 /***/ },
@@ -746,7 +733,7 @@
 	var Database = __webpack_require__(17);
 	
 	var GameView = function () {
-	  function GameView(game, ctx) {
+	  function GameView(game, ctx, database) {
 	    _classCallCheck(this, GameView);
 	
 	    this.ctx = ctx;
@@ -756,8 +743,8 @@
 	    this.songIsPlaying = true;
 	    this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
 	    this.toggleSound = this.toggleSound.bind(this);
-	    // this.database = database;
-	    // Database.getHighScores(database);
+	    this.database = database;
+	    Database.getHighScores(this, database);
 	  }
 	
 	  _createClass(GameView, [{
@@ -782,6 +769,28 @@
 	      $('.play-again').on("click", function (e) {
 	        this.handlePlayAgain(e);
 	      }.bind(this));
+	
+	      $('.high-scores-label').on('click', function (e) {
+	        this.handleOpenHighScores(e);
+	      }.bind(this));
+	
+	      $('.close-high-score').on('click', function (e) {
+	        this.handleCloseHighScores(e);
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'handleOpenHighScores',
+	    value: function handleOpenHighScores(e) {
+	      e.preventDefault();
+	      $('.high-score-modal').removeClass('hidden');
+	      $('.high-score-modal-content').removeClass('hidden');
+	    }
+	  }, {
+	    key: 'handleCloseHighScores',
+	    value: function handleCloseHighScores(e) {
+	      e.preventDefault();
+	      $('.high-score-modal').addClass('hidden');
+	      $('.high-score-modal-content').addClass('hidden');
 	    }
 	  }, {
 	    key: 'handleOpenGamePlayModal',
@@ -839,7 +848,7 @@
 	        requestAnimationFrame(this.update.bind(this));
 	      } else {
 	        this.renderLose();
-	        Database.setHighScore(this.database, this.game.points);
+	        // Database.setHighScore(this.database, this.game.points);
 	      }
 	    }
 	  }, {
@@ -1649,10 +1658,10 @@
 	
 	var renderHighScores = function renderHighScores(database, score, newHighScore) {
 	  $('.high-score-form').removeClass('hidden');
-	  $('.form').htmlElements[0].value = '';
+	  $('.form')[0].value = '';
 	  var handleSubmit = function handleSubmit(e) {
 	    e.preventDefault();
-	    var name = $('.form').htmlElements[0].value;
+	    var name = $('.form')[0].value;
 	    var player = '' + name;
 	    database.ref('highscores/' + player).set(score);
 	    $('.high-score-form').addClass('hidden');
@@ -1673,8 +1682,6 @@
 	      sortedHighScores = compareHighScores(highScores);
 	      createHighScores(sortedHighScores, highScores);
 	    });
-	
-	    return [sortedHighScores, highScores];
 	  },
 	  setHighScore: function setHighScore(database, score) {
 	    var newHighScore = function newHighScore() {

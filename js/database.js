@@ -37,10 +37,10 @@ const lowestHighScore = (database, score, highScores, sortedHighScores) => {
 
 const renderHighScores = (database, score, newHighScore) => {
   $('.high-score-form').removeClass('hidden');
-  $('.form').htmlElements[0].value = '';
+  $('.form')[0].value = '';
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = $('.form').htmlElements[0].value;
+    const name = $('.form')[0].value;
     const player = `${name}`;
     database.ref(`highscores/${player}`).set(score);
     $('.high-score-form').addClass('hidden');
@@ -62,8 +62,6 @@ const Database = {
       sortedHighScores = compareHighScores(highScores);
       createHighScores(sortedHighScores, highScores);
     });
-
-    return [sortedHighScores, highScores];
   },
 
   setHighScore(database, score) {

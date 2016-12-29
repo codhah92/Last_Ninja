@@ -2,7 +2,7 @@ const Game = require('./game.js');
 const Database = require('./database.js');
 
 class GameView {
-  constructor(game, ctx) {
+  constructor(game, ctx, database) {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
@@ -10,8 +10,8 @@ class GameView {
     this.songIsPlaying = true;
     this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
     this.toggleSound = this.toggleSound.bind(this);
-    // this.database = database;
-    // Database.getHighScores(database);
+    this.database = database;
+    Database.getHighScores(this, database);
   }
 
   bindKeyHandlers() {
@@ -34,6 +34,26 @@ class GameView {
     $('.play-again').on("click", function(e) {
       this.handlePlayAgain(e);
     }.bind(this));
+
+    $('.high-scores-label').on('click', function(e) {
+      this.handleOpenHighScores(e);
+    }.bind(this));
+
+    $('.close-high-score').on('click', function(e) {
+      this.handleCloseHighScores(e);
+    }.bind(this));
+  }
+
+  handleOpenHighScores(e) {
+    e.preventDefault();
+    $('.high-score-modal').removeClass('hidden');
+    $('.high-score-modal-content').removeClass('hidden');
+  }
+
+  handleCloseHighScores(e) {
+    e.preventDefault();
+    $('.high-score-modal').addClass('hidden');
+    $('.high-score-modal-content').addClass('hidden');
   }
 
   handleOpenGamePlayModal(e) {
@@ -86,7 +106,7 @@ class GameView {
       requestAnimationFrame(this.update.bind(this));
     } else {
       this.renderLose();
-      Database.setHighScore(this.database, this.game.points);
+      // Database.setHighScore(this.database, this.game.points);
     }
   }
 

@@ -18,20 +18,7 @@ document.addEventListener("DOMContentLoaded", function(){
   canvasEl.width = Game.DIM_X;
   canvasEl.height = Game.DIM_Y;
 
-  // const modal = document.getElementById('game-modal');
-  // const loseModal = document.getElementById('lose-modal');
-  // const btn = document.getElementById("gameplay");
-  // btn.onclick = function() {
-  //     modal.style.display = "block";
-  // };
-  // window.onclick = function(event) {
-  //     if (event.target === modal || event.target === loseModal) {
-  //         modal.style.display = "none";
-  //         loseModal.style.display = "none";
-  //     }
-  // };
-
   const ctx = canvasEl.getContext("2d");
   const game = new Game();
-  new GameView(game, ctx).load();
+  new GameView(game, ctx, database).load();
 });

@@ -39,30 +39,30 @@
       </div>
     </div>
 
-    <!-- <div class='high-score-modal hidden'>
-      <div class='high-score-content hidden'>
-        <a href="#close" title='Close' class='close'>X</a>
-        <h1 class='leader modal-header'>Top 10</h1>
-        <ul class='high-score-list'>
-        </ul>
-      </div>
-    </div>
-
-    <div class='high-score-form modal hidden'>
-      <div class='high-score-content hidden'>
-        <h1>New High Score!</h1>
-        <form class='hs-form' autocomplete='off'>
-          <input type='text' class='form' placeholder='name' name='name' value='' maxLength='8'>
-          <button type='submit' class='form-button button'>Submit</button>
-        </form>
-      </div>
-    </div> -->
-
     <div id="lose-modal" class="lose-modal hidden">
       <div class="modal-content">
         <p>Takahashi has been slain. You have failed.</p>
         <br/>
         <button class="play-again">Play Again</button>
+      </div>
+    </div>
+
+    <div id="high-score-modal" class='high-score-modal hidden'>
+      <div class='high-score-modal-content hidden'>
+        <label class='close-high-score'>X</label>
+        <h1 class='high-score-modal-header'>Top 5</h1>
+        <ul class='high-score-list'>
+        </ul>
+      </div>
+    </div>
+
+    <div id="high-score-form" class='high-score-form modal hidden'>
+      <div class='high-score-modal-content group hidden'>
+        <h1 class='high-score-modal-header'>New High Score!</h1>
+        <form class='hs-form' autocomplete='off'>
+          <input type='text' class='form' placeholder='name' name='name' value='' maxLength='8'>
+          <button type='submit' class='form-button button'>Submit</button>
+        </form>
       </div>
     </div>
 
@@ -77,7 +77,10 @@
           <span class="kunais"></span>
         </label>
         <label id="gameplay" class="gameplay-label">GamePlay</label>
-        <label class="high-scores-label">High Scores</label>
+        <label id="high-scores-label" class="high-scores-label">High Scores</label>
+        <a href="https://github.com/codhah92/Last_Ninja" class="github-label">Github</a>
+        <a href="https://codhah92.github.io/" class="website-label">Website</a>
+        <a href="https://www.linkedin.com/in/codyjhahn" class="linkedin-label">Linkedin</a>
       </section>
     </div>
   </body>
