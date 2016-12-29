@@ -17,7 +17,7 @@ const compareHighScores = (highScores) => {
 const createHighScores = (sortedHighScores, highScores) => {
   const highScoreList = $('.high-score-list');
   highScoreList.empty();
-  
+
   for (let i = 0; i < sortedHighScores.length; i++) {
     let highScore = $('<li>');
     let player = sortedHighScores[i];
@@ -38,9 +38,13 @@ const lowestHighScore = (database, score, highScores, sortedHighScores) => {
 const renderHighScores = (database, score, newHighScore) => {
   $('.high-score-form').removeClass('hidden');
   $('.form')[0].value = "";
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = $('.form')[0].value;
+    let name = $('.form')[0].value;
+    if (name === "") {
+      name = "guest";
+    }
     database.ref(`highscores/${name}`).set(score);
     $('.high-score-form').addClass('hidden');
     $('.high-score').removeClass('hidden');

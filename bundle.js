@@ -987,9 +987,13 @@
 	var renderHighScores = function renderHighScores(database, score, newHighScore) {
 	  $('.high-score-form').removeClass('hidden');
 	  $('.form')[0].value = "";
+	
 	  var handleSubmit = function handleSubmit(e) {
 	    e.preventDefault();
 	    var name = $('.form')[0].value;
+	    if (name === "") {
+	      name = "guest";
+	    }
 	    database.ref('highscores/' + name).set(score);
 	    $('.high-score-form').addClass('hidden');
 	    $('.high-score').removeClass('hidden');

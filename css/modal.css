@@ -14,10 +14,15 @@
     background-color: rgba(0,0,0,0.4);
 }
 
+.high-score-modal-content {
+  background-image: url('../assets/highscores.jpg');
+  background-size: cover;
+  color: white;
+}
+
 .high-score-modal-header {
   display: block;
-  color: red;
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   line-height: 30px;
@@ -86,14 +91,14 @@
 .close-gameplay,
 .close-high-score {
   position: absolute;
-  color: black;
+  color: white;
   right: 20px;
   font-size: 30px;
 }
 
 .close-gameplay:hover,
 .close-high-score:hover {
-  color: white;
+  color: red;
   cursor: pointer;
 }
 
@@ -107,20 +112,22 @@
     border: 1px solid #ccc;
     width: 500px;
     position: relative;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+
 }
 
 .high-score-form-content {
-  height: 50%;
+  height: 65%;
   border-radius: 2%;
   background-image: url('../assets/frontpage_background.jpg');
   background-size: cover;
 }
 
 .hs-form {
-  display: flex;
-  justify-content: center;
   z-index: 1000;
-  margin: 50px auto;
+  width: 100%;
 }
 
 input {
@@ -130,12 +137,30 @@ input {
   color: white;
   font-size: 18px;
   padding: 10px;
-  border-radius: 3%;
+  border-radius: 3px;
+  display: block;
+  width: 75%;
+  margin: 50px auto;
 }
 
 .form-button {
-  background: #ccc;
+  background: transparent;
+  border-radius: 3px;
+  color: white;
   display: block;
-  float: left;
-  width:
+  margin: 0 auto;
+  width: 40%;
+  border: 1px solid white;
+}
+
+.form-button:hover {
+  color: black;
+  background: white;
+  cursor: pointer;
+}
+
+.high-score-name {
+  font-size: 16px;
+  line-height: 30px;
+  margin-top: 20px;
 }
