@@ -51,37 +51,37 @@
 	var firebase = __webpack_require__(10);
 	
 	var config = {
-	    apiKey: "AIzaSyAOF_CAPegYRNLDxwCdbPNGfItGwmCkJpE",
-	    authDomain: "last-ninja.firebaseapp.com",
-	    databaseURL: "https://last-ninja.firebaseio.com",
-	    storageBucket: "last-ninja.appspot.com",
-	    messagingSenderId: "399350145438"
+	  apiKey: "AIzaSyAOF_CAPegYRNLDxwCdbPNGfItGwmCkJpE",
+	  authDomain: "last-ninja.firebaseapp.com",
+	  databaseURL: "https://last-ninja.firebaseio.com",
+	  storageBucket: "last-ninja.appspot.com",
+	  messagingSenderId: "399350145438"
 	};
 	firebase.initializeApp(config);
 	
 	var database = firebase.database();
 	
 	document.addEventListener("DOMContentLoaded", function () {
-	    var canvasEl = document.getElementsByTagName("canvas")[0];
-	    canvasEl.width = Game.DIM_X;
-	    canvasEl.height = Game.DIM_Y;
+	  var canvasEl = document.getElementsByTagName("canvas")[0];
+	  canvasEl.width = Game.DIM_X;
+	  canvasEl.height = Game.DIM_Y;
 	
-	    var modal = document.getElementById('game-modal');
-	    var loseModal = document.getElementById('lose-modal');
-	    var btn = document.getElementById("gameplay");
-	    btn.onclick = function () {
-	        modal.style.display = "block";
-	    };
-	    window.onclick = function (event) {
-	        if (event.target === modal || event.target === loseModal) {
-	            modal.style.display = "none";
-	            loseModal.style.display = "none";
-	        }
-	    };
+	  // const modal = document.getElementById('game-modal');
+	  // const loseModal = document.getElementById('lose-modal');
+	  // const btn = document.getElementById("gameplay");
+	  // btn.onclick = function() {
+	  //     modal.style.display = "block";
+	  // };
+	  // window.onclick = function(event) {
+	  //     if (event.target === modal || event.target === loseModal) {
+	  //         modal.style.display = "none";
+	  //         loseModal.style.display = "none";
+	  //     }
+	  // };
 	
-	    var ctx = canvasEl.getContext("2d");
-	    var game = new Game();
-	    new GameView(game, ctx, database).load();
+	  var ctx = canvasEl.getContext("2d");
+	  var game = new Game();
+	  new GameView(game, ctx).load();
 	});
 
 /***/ },
@@ -743,9 +743,10 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = __webpack_require__(1);
+	var Database = __webpack_require__(17);
 	
 	var GameView = function () {
-	  function GameView(game, ctx, databse) {
+	  function GameView(game, ctx) {
 	    _classCallCheck(this, GameView);
 	
 	    this.ctx = ctx;
@@ -754,16 +755,53 @@
 	    this.background = this.game.addBackground(game);
 	    this.songIsPlaying = true;
 	    this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
-	    $(window).on("keydown", this.handleKeyEvent.bind(this));
-	    $('.play').on("click", this.handleNewGame.bind(this));
-	    $('.play-again').on("click", this.handlePlayAgain.bind(this));
-	    this.closePlayAgainModal = this.closePlayAgainModal.bind(this);
-	    this.closePlayNowModal = this.closePlayNowModal.bind(this);
-	    this.renderLose = this.renderLose.bind(this);
 	    this.toggleSound = this.toggleSound.bind(this);
+	    // this.database = database;
+	    // Database.getHighScores(database);
 	  }
 	
 	  _createClass(GameView, [{
+	    key: 'bindKeyHandlers',
+	    value: function bindKeyHandlers() {
+	      $(window).on('keydown', function (e) {
+	        this.handleKeyEvent(e);
+	      }.bind(this));
+	
+	      $('.gameplay-label').on('click', function (e) {
+	        this.handleOpenGamePlayModal(e);
+	      }.bind(this));
+	
+	      $('.close-gameplay').on('click', function (e) {
+	        this.handleCloseGamePlayModal(e);
+	      }.bind(this));
+	
+	      $('.play').on("click", function (e) {
+	        this.handleNewGame(e);
+	      }.bind(this));
+	
+	      $('.play-again').on("click", function (e) {
+	        this.handlePlayAgain(e);
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'handleOpenGamePlayModal',
+	    value: function handleOpenGamePlayModal(e) {
+	      e.preventDefault();
+	      $('.gameplay-modal').removeClass('hidden');
+	    }
+	  }, {
+	    key: 'handleCloseGamePlayModal',
+	    value: function handleCloseGamePlayModal(e) {
+	      e.preventDefault();
+	      $('.gameplay-modal').addClass('hidden');
+	    }
+	  }, {
+	    key: 'handleClosePlayAgainModal',
+	    value: function handleClosePlayAgainModal(e) {
+	      e.preventDefault();
+	      $('.lose-modal').addClass('hidden');
+	    }
+	  }, {
 	    key: 'handleKeyEvent',
 	    value: function handleKeyEvent(e) {
 	      if (e.keyCode === 84) {
@@ -782,10 +820,10 @@
 	    key: 'nextLevel',
 	    value: function nextLevel() {
 	      if (this.game.points % 25000 === 0) {
-	        this.ninja.kunais += 1;
+	        this.ninja.kunais += 5;
 	        Game.TOTAL_STARS += 3;
 	      } else if (this.game.points % 10000 === 0) {
-	        this.ninja.kunais += 5;
+	        this.ninja.kunais += 2;
 	        Game.TOTAL_STARS += 3;
 	      }
 	    }
@@ -801,13 +839,13 @@
 	        requestAnimationFrame(this.update.bind(this));
 	      } else {
 	        this.renderLose();
+	        Database.setHighScore(this.database, this.game.points);
 	      }
 	    }
 	  }, {
 	    key: 'renderLose',
 	    value: function renderLose() {
-	      var loseModal = document.getElementById('lose-modal');
-	      loseModal.style.display = "block";
+	      $('.lose-modal').removeClass('hidden');
 	    }
 	  }, {
 	    key: 'renderKunaiCount',
@@ -821,29 +859,20 @@
 	    }
 	  }, {
 	    key: 'handleNewGame',
-	    value: function handleNewGame() {
+	    value: function handleNewGame(e) {
+	      e.preventDefault();
+	
 	      if (this.game.lose) {
-	        this.closePlayNowModal();
+	        this.handleCloseGamePlayModal(e);
 	        this.start();
 	      }
 	    }
 	  }, {
 	    key: 'handlePlayAgain',
-	    value: function handlePlayAgain() {
-	      this.closePlayAgainModal();
+	    value: function handlePlayAgain(e) {
+	      e.preventDefault();
+	      this.handleClosePlayAgainModal(e);
 	      this.start();
-	    }
-	  }, {
-	    key: 'closePlayNowModal',
-	    value: function closePlayNowModal() {
-	      var modal = document.getElementById('game-modal');
-	      modal.style.display = "none";
-	    }
-	  }, {
-	    key: 'closePlayAgainModal',
-	    value: function closePlayAgainModal() {
-	      var modal = document.getElementById('lose-modal');
-	      modal.style.display = "none";
 	    }
 	  }, {
 	    key: 'start',
@@ -862,10 +891,10 @@
 	  }, {
 	    key: 'load',
 	    value: function load() {
+	      this.bindKeyHandlers();
 	      var introSong = new Audio('./assets/audio/intro.mp3');
 	      introSong.play();
 	      var modal = document.getElementById('game-modal');
-	      modal.style.display = "block";
 	    }
 	  }, {
 	    key: 'toggleSound',
@@ -1574,6 +1603,92 @@
 	module.exports = firebase.messaging;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 16 */,
+/* 17 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var compareHighScores = function compareHighScores(highScores) {
+	  var allHighScores = Object.keys(highScores);
+	  var idx = allHighScores.indexOf('lowestHighScore');
+	  var sortedHighScores = allHighScores.slice(0, idx).concat(allHighScores.slice(idx + 1));
+	
+	  sortedHighScores.sort(function (x, y) {
+	    if (highScores[x] < highScores[y]) {
+	      return 1;
+	    } else {
+	      return -1;
+	    }
+	  });
+	
+	  return sortedHighScores;
+	};
+	
+	var createHighScores = function createHighScores(sortedHighScores, highScores) {
+	  var highScoreList = $('.high-score-list');
+	
+	  for (var i = 0; i < sortedHighScores.length; i++) {
+	    var highScore = $('<li>');
+	    var player = sortedHighScores[i];
+	    highScore.text(player + ' - ' + highScores[player]);
+	    highScoreList.append(highScore);
+	  }
+	};
+	
+	var lowestHighScore = function lowestHighScore(database, score, highScores, sortedHighScores) {
+	  var newLowest = highScores[sortedHighScores[9]];
+	  var oldLowest = highScores[sortedHighScores[10]];
+	  database.ref('highscores/low').set(newLowest);
+	  if (oldLowest) {
+	    database.ref('highscores/' + sortedHighScores[10]).remove();
+	  }
+	};
+	
+	var renderHighScores = function renderHighScores(database, score, newHighScore) {
+	  $('.high-score-form').removeClass('hidden');
+	  $('.form').htmlElements[0].value = '';
+	  var handleSubmit = function handleSubmit(e) {
+	    e.preventDefault();
+	    var name = $('.form').htmlElements[0].value;
+	    var player = '' + name;
+	    database.ref('highscores/' + player).set(score);
+	    $('.high-score-form').addClass('hidden');
+	    $('.high-score').removeClass('hidden');
+	    newHighScore();
+	    $('.hs-form').off('submit', handleSubmit);
+	  };
+	  $('.hs-form').on('submit', handleSubmit);
+	};
+	
+	var Database = {
+	  getHighScores: function getHighScores(view, database) {
+	    var highScores = void 0;
+	    var sortedHighScores = void 0;
+	
+	    database.ref('highscores/').on('value', function (snapshot) {
+	      highScores = snapshot.val();
+	      sortedHighScores = compareHighScores(highScores);
+	      createHighScores(sortedHighScores, highScores);
+	    });
+	
+	    return [sortedHighScores, highScores];
+	  },
+	  setHighScore: function setHighScore(database, score) {
+	    var newHighScore = function newHighScore() {
+	      database.ref('highscores/').once('value').then(function (snapshot) {
+	        var highScores = snapshot.val();
+	        var sortedHighScores = compareHighScores(highScores);
+	        lowestHighScore(database, score, highScores, sortedHighScores);
+	      });
+	    };
+	    renderHighScores(database, score, newHighScore);
+	  }
+	};
+	
+	module.exports = Database;
 
 /***/ }
 /******/ ]);

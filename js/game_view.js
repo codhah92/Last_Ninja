@@ -1,20 +1,54 @@
 const Game = require('./game.js');
+const Database = require('./database.js');
 
 class GameView {
-  constructor(game, ctx, databse) {
+  constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
     this.ninja = this.game.makeNinja();
     this.background = this.game.addBackground(game);
     this.songIsPlaying = true;
     this.themeSong = new Audio('./assets/audio/ninja_theme.mp3');
-    $(window).on("keydown", this.handleKeyEvent.bind(this));
-    $('.play').on("click", this.handleNewGame.bind(this));
-    $('.play-again').on("click", this.handlePlayAgain.bind(this));
-    this.closePlayAgainModal = this.closePlayAgainModal.bind(this);
-    this.closePlayNowModal = this.closePlayNowModal.bind(this);
-    this.renderLose = this.renderLose.bind(this);
     this.toggleSound = this.toggleSound.bind(this);
+    // this.database = database;
+    // Database.getHighScores(database);
+  }
+
+  bindKeyHandlers() {
+    $(window).on('keydown', function(e) {
+      this.handleKeyEvent(e);
+    }.bind(this));
+
+    $('.gameplay-label').on('click', function(e) {
+      this.handleOpenGamePlayModal(e);
+    }.bind(this));
+
+    $('.close-gameplay').on('click', function(e) {
+      this.handleCloseGamePlayModal(e);
+    }.bind(this));
+
+    $('.play').on("click", function(e) {
+      this.handleNewGame(e);
+    }.bind(this));
+
+    $('.play-again').on("click", function(e) {
+      this.handlePlayAgain(e);
+    }.bind(this));
+  }
+
+  handleOpenGamePlayModal(e) {
+    e.preventDefault();
+    $('.gameplay-modal').removeClass('hidden');
+  }
+
+  handleCloseGamePlayModal(e) {
+    e.preventDefault();
+    $('.gameplay-modal').addClass('hidden');
+  }
+
+  handleClosePlayAgainModal(e) {
+    e.preventDefault();
+    $('.lose-modal').addClass('hidden');
   }
 
   handleKeyEvent(e) {
@@ -33,10 +67,10 @@ class GameView {
 
   nextLevel() {
     if (this.game.points % 25000 === 0) {
-      this.ninja.kunais += 1;
+      this.ninja.kunais += 5;
       Game.TOTAL_STARS += 3;
     } else if (this.game.points % 10000 === 0) {
-      this.ninja.kunais += 5;
+      this.ninja.kunais += 2;
       Game.TOTAL_STARS += 3;
     }
   }
@@ -52,12 +86,12 @@ class GameView {
       requestAnimationFrame(this.update.bind(this));
     } else {
       this.renderLose();
+      Database.setHighScore(this.database, this.game.points);
     }
   }
 
   renderLose() {
-    const loseModal = document.getElementById('lose-modal');
-    loseModal.style.display = "block";
+    $('.lose-modal').removeClass('hidden');
   }
 
   renderKunaiCount() {
@@ -68,26 +102,19 @@ class GameView {
     $('.points').text(this.game.points);
   }
 
-  handleNewGame() {
+  handleNewGame(e) {
+    e.preventDefault();
+
     if (this.game.lose) {
-      this.closePlayNowModal();
+      this.handleCloseGamePlayModal(e);
       this.start();
     }
   }
 
-  handlePlayAgain() {
-    this.closePlayAgainModal();
+  handlePlayAgain(e) {
+    e.preventDefault();
+    this.handleClosePlayAgainModal(e);
     this.start();
-  }
-
-  closePlayNowModal() {
-    const modal = document.getElementById('game-modal');
-    modal.style.display = "none";
-  }
-
-  closePlayAgainModal() {
-    const modal = document.getElementById('lose-modal');
-    modal.style.display = "none";
   }
 
   start() {
@@ -104,10 +131,10 @@ class GameView {
   }
 
   load() {
+    this.bindKeyHandlers();
     const introSong = new Audio('./assets/audio/intro.mp3');
     introSong.play();
     const modal = document.getElementById('game-modal');
-    modal.style.display = "block";
   }
 
   toggleSound() {
