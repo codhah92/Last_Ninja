@@ -158,7 +158,7 @@ class Game {
     this.ninjas = [];
     this.stars = [];
     this.kunais = [];
-    Game.TOTAL_STARS = 10;
+    Game.TOTAL_STARS = 5;
   }
 
   keepNinjaInWalls() {
@@ -183,7 +183,7 @@ class Game {
 
 Game.DIM_X = 1000;
 Game.DIM_Y = 500;
-Game.TOTAL_STARS = 10;
+Game.TOTAL_STARS = 5;
 Game.TOTAL_KUNAIS = 5;
 
 module.exports = Game;
