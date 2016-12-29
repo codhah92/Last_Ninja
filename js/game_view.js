@@ -44,6 +44,11 @@ class GameView {
     }.bind(this));
   }
 
+  openHighScores() {
+    $('.high-score-modal').removeClass('hidden');
+    $('.high-score-modal-content').removeClass('hidden');
+  }
+
   handleOpenHighScores(e) {
     e.preventDefault();
     $('.high-score-modal').removeClass('hidden');
@@ -104,9 +109,11 @@ class GameView {
       this.renderKunaiCount();
       this.game.draw(this.ctx);
       requestAnimationFrame(this.update.bind(this));
+    } else if (this.lowestScore < this.game.points){
+      Database.setHighScore(this.database, this.game.points);
+      this.openHighScores();
     } else {
       this.renderLose();
-      // Database.setHighScore(this.database, this.game.points);
     }
   }
 

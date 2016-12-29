@@ -1,8 +1,7 @@
 const compareHighScores = (highScores) => {
-  const allHighScores = Object.keys(highScores);
-  const idx = allHighScores.indexOf('lowestHighScore');
-  const sortedHighScores =
-    allHighScores.slice(0, idx).concat(allHighScores.slice(idx + 1));
+  const allHighScoreKeys = Object.keys(highScores);
+  const idx = allHighScoreKeys.indexOf('lowest');
+  const sortedHighScores = allHighScoreKeys.slice(0, idx).concat(allHighScoreKeys.slice(idx + 1));
 
   sortedHighScores.sort((x, y) => {
     if (highScores[x] < highScores[y]){
@@ -17,7 +16,8 @@ const compareHighScores = (highScores) => {
 
 const createHighScores = (sortedHighScores, highScores) => {
   const highScoreList = $('.high-score-list');
-
+  highScoreList.empty();
+  
   for (let i = 0; i < sortedHighScores.length; i++) {
     let highScore = $('<li>');
     let player = sortedHighScores[i];
@@ -27,22 +27,21 @@ const createHighScores = (sortedHighScores, highScores) => {
 };
 
 const lowestHighScore = (database, score, highScores, sortedHighScores) => {
-  const newLowest = highScores[sortedHighScores[9]];
-  const oldLowest = highScores[sortedHighScores[10]];
-  database.ref(`highscores/low`).set(newLowest);
+  const newLowest = highScores[sortedHighScores[7]];
+  const oldLowest = highScores[sortedHighScores[8]];
+  database.ref(`highscores/lowest`).set(newLowest);
   if (oldLowest) {
-    database.ref(`highscores/${sortedHighScores[10]}`).remove();
+    database.ref(`highscores/${sortedHighScores[8]}`).remove();
   }
 };
 
 const renderHighScores = (database, score, newHighScore) => {
   $('.high-score-form').removeClass('hidden');
-  $('.form')[0].value = '';
+  $('.form')[0].value = "";
   const handleSubmit = (e) => {
     e.preventDefault();
     const name = $('.form')[0].value;
-    const player = `${name}`;
-    database.ref(`highscores/${player}`).set(score);
+    database.ref(`highscores/${name}`).set(score);
     $('.high-score-form').addClass('hidden');
     $('.high-score').removeClass('hidden');
     newHighScore();
@@ -60,6 +59,7 @@ const Database = {
     database.ref(`highscores/`).on('value', (snapshot) => {
       highScores = snapshot.val();
       sortedHighScores = compareHighScores(highScores);
+      view.lowestScore = highScores[sortedHighScores.slice(sortedHighScores.length - 1)];
       createHighScores(sortedHighScores, highScores);
     });
   },

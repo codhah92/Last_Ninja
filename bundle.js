@@ -48,7 +48,7 @@
 	
 	var Game = __webpack_require__(1);
 	var GameView = __webpack_require__(9);
-	var firebase = __webpack_require__(10);
+	var firebase = __webpack_require__(11);
 	
 	var config = {
 	  apiKey: "AIzaSyAOF_CAPegYRNLDxwCdbPNGfItGwmCkJpE",
@@ -730,7 +730,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = __webpack_require__(1);
-	var Database = __webpack_require__(17);
+	var Database = __webpack_require__(10);
 	
 	var GameView = function () {
 	  function GameView(game, ctx, database) {
@@ -777,6 +777,12 @@
 	      $('.close-high-score').on('click', function (e) {
 	        this.handleCloseHighScores(e);
 	      }.bind(this));
+	    }
+	  }, {
+	    key: 'openHighScores',
+	    value: function openHighScores() {
+	      $('.high-score-modal').removeClass('hidden');
+	      $('.high-score-modal-content').removeClass('hidden');
 	    }
 	  }, {
 	    key: 'handleOpenHighScores',
@@ -846,9 +852,11 @@
 	        this.renderKunaiCount();
 	        this.game.draw(this.ctx);
 	        requestAnimationFrame(this.update.bind(this));
+	      } else if (this.lowestScore < this.game.points) {
+	        Database.setHighScore(this.database, this.game.points);
+	        this.openHighScores();
 	      } else {
 	        this.renderLose();
-	        // Database.setHighScore(this.database, this.game.points);
 	      }
 	    }
 	  }, {
@@ -935,6 +943,90 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var compareHighScores = function compareHighScores(highScores) {
+	  var allHighScoreKeys = Object.keys(highScores);
+	  var idx = allHighScoreKeys.indexOf('lowest');
+	  var sortedHighScores = allHighScoreKeys.slice(0, idx).concat(allHighScoreKeys.slice(idx + 1));
+	
+	  sortedHighScores.sort(function (x, y) {
+	    if (highScores[x] < highScores[y]) {
+	      return 1;
+	    } else {
+	      return -1;
+	    }
+	  });
+	
+	  return sortedHighScores;
+	};
+	
+	var createHighScores = function createHighScores(sortedHighScores, highScores) {
+	  var highScoreList = $('.high-score-list');
+	  highScoreList.empty();
+	
+	  for (var i = 0; i < sortedHighScores.length; i++) {
+	    var highScore = $('<li>');
+	    var player = sortedHighScores[i];
+	    highScore.text(player + ' - ' + highScores[player]);
+	    highScoreList.append(highScore);
+	  }
+	};
+	
+	var lowestHighScore = function lowestHighScore(database, score, highScores, sortedHighScores) {
+	  var newLowest = highScores[sortedHighScores[7]];
+	  var oldLowest = highScores[sortedHighScores[8]];
+	  database.ref('highscores/lowest').set(newLowest);
+	  if (oldLowest) {
+	    database.ref('highscores/' + sortedHighScores[8]).remove();
+	  }
+	};
+	
+	var renderHighScores = function renderHighScores(database, score, newHighScore) {
+	  $('.high-score-form').removeClass('hidden');
+	  $('.form')[0].value = "";
+	  var handleSubmit = function handleSubmit(e) {
+	    e.preventDefault();
+	    var name = $('.form')[0].value;
+	    database.ref('highscores/' + name).set(score);
+	    $('.high-score-form').addClass('hidden');
+	    $('.high-score').removeClass('hidden');
+	    newHighScore();
+	    $('.hs-form').off('submit', handleSubmit);
+	  };
+	  $('.hs-form').on('submit', handleSubmit);
+	};
+	
+	var Database = {
+	  getHighScores: function getHighScores(view, database) {
+	    var highScores = void 0;
+	    var sortedHighScores = void 0;
+	
+	    database.ref('highscores/').on('value', function (snapshot) {
+	      highScores = snapshot.val();
+	      sortedHighScores = compareHighScores(highScores);
+	      view.lowestScore = highScores[sortedHighScores.slice(sortedHighScores.length - 1)];
+	      createHighScores(sortedHighScores, highScores);
+	    });
+	  },
+	  setHighScore: function setHighScore(database, score) {
+	    var newHighScore = function newHighScore() {
+	      database.ref('highscores/').once('value').then(function (snapshot) {
+	        var highScores = snapshot.val();
+	        var sortedHighScores = compareHighScores(highScores);
+	        lowestHighScore(database, score, highScores, sortedHighScores);
+	      });
+	    };
+	    renderHighScores(database, score, newHighScore);
+	  }
+	};
+	
+	module.exports = Database;
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -944,16 +1036,16 @@
 	 *
 	 *   firebase = require('firebase');
 	 */
-	var firebase = __webpack_require__(11);
-	__webpack_require__(12);
+	var firebase = __webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(15);
+	__webpack_require__(16);
 	module.exports = firebase;
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {var firebase = (function(){
@@ -993,10 +1085,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(11);
+	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(12);
 	(function(){
 	/*! @license Firebase v3.6.4
 	    Build: 3.6.4-rc.2
@@ -1239,10 +1331,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(11);
+	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(12);
 	(function(){
 	/*! @license Firebase v3.6.4
 	    Build: 3.6.4-rc.2
@@ -1510,10 +1602,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(11);
+	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(12);
 	(function(){
 	/*! @license Firebase v3.6.4
 	    Build: 3.6.4-rc.2
@@ -1568,10 +1660,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(11);
+	/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(12);
 	(function(){
 	/*! @license Firebase v3.6.4
 	    Build: 3.6.4-rc.2
@@ -1612,90 +1704,6 @@
 	module.exports = firebase.messaging;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 16 */,
-/* 17 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var compareHighScores = function compareHighScores(highScores) {
-	  var allHighScores = Object.keys(highScores);
-	  var idx = allHighScores.indexOf('lowestHighScore');
-	  var sortedHighScores = allHighScores.slice(0, idx).concat(allHighScores.slice(idx + 1));
-	
-	  sortedHighScores.sort(function (x, y) {
-	    if (highScores[x] < highScores[y]) {
-	      return 1;
-	    } else {
-	      return -1;
-	    }
-	  });
-	
-	  return sortedHighScores;
-	};
-	
-	var createHighScores = function createHighScores(sortedHighScores, highScores) {
-	  var highScoreList = $('.high-score-list');
-	
-	  for (var i = 0; i < sortedHighScores.length; i++) {
-	    var highScore = $('<li>');
-	    var player = sortedHighScores[i];
-	    highScore.text(player + ' - ' + highScores[player]);
-	    highScoreList.append(highScore);
-	  }
-	};
-	
-	var lowestHighScore = function lowestHighScore(database, score, highScores, sortedHighScores) {
-	  var newLowest = highScores[sortedHighScores[9]];
-	  var oldLowest = highScores[sortedHighScores[10]];
-	  database.ref('highscores/low').set(newLowest);
-	  if (oldLowest) {
-	    database.ref('highscores/' + sortedHighScores[10]).remove();
-	  }
-	};
-	
-	var renderHighScores = function renderHighScores(database, score, newHighScore) {
-	  $('.high-score-form').removeClass('hidden');
-	  $('.form')[0].value = '';
-	  var handleSubmit = function handleSubmit(e) {
-	    e.preventDefault();
-	    var name = $('.form')[0].value;
-	    var player = '' + name;
-	    database.ref('highscores/' + player).set(score);
-	    $('.high-score-form').addClass('hidden');
-	    $('.high-score').removeClass('hidden');
-	    newHighScore();
-	    $('.hs-form').off('submit', handleSubmit);
-	  };
-	  $('.hs-form').on('submit', handleSubmit);
-	};
-	
-	var Database = {
-	  getHighScores: function getHighScores(view, database) {
-	    var highScores = void 0;
-	    var sortedHighScores = void 0;
-	
-	    database.ref('highscores/').on('value', function (snapshot) {
-	      highScores = snapshot.val();
-	      sortedHighScores = compareHighScores(highScores);
-	      createHighScores(sortedHighScores, highScores);
-	    });
-	  },
-	  setHighScore: function setHighScore(database, score) {
-	    var newHighScore = function newHighScore() {
-	      database.ref('highscores/').once('value').then(function (snapshot) {
-	        var highScores = snapshot.val();
-	        var sortedHighScores = compareHighScores(highScores);
-	        lowestHighScore(database, score, highScores, sortedHighScores);
-	      });
-	    };
-	    renderHighScores(database, score, newHighScore);
-	  }
-	};
-	
-	module.exports = Database;
 
 /***/ }
 /******/ ]);
