@@ -852,10 +852,11 @@
 	        this.renderKunaiCount();
 	        this.game.draw(this.ctx);
 	        requestAnimationFrame(this.update.bind(this));
-	      } else if (this.lowestScore < this.game.points) {
-	        Database.setHighScore(this.database, this.game.points);
-	        this.openHighScores();
 	      } else {
+	        if (this.lowestScore < this.game.points) {
+	          Database.setHighScore(this.database, this.game.points);
+	          this.openHighScores();
+	        }
 	        this.renderLose();
 	      }
 	    }
