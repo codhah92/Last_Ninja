@@ -77,6 +77,8 @@ class GameView {
   }
 
   handleKeyEvent(e) {
+    e.preventDefault();
+
     if (e.keyCode === 84) {
       this.toggleSound();
     }

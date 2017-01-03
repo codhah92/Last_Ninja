@@ -51,25 +51,21 @@ class Ninja extends MovingObject {
         if (this.pos[0] > 10){
           this.vel[0] = -2;
         }
-        // this.vel[1] = 0;
         break;
       case "W":
         if (this.pos[1] > 10) {
           this.vel[1] = -2;
         }
-        // this.vel[0] = 0;
         break;
       case "S":
         if (this.pos[1] < 490) {
           this.vel[1] = 2;
         }
-        // this.vel[0] = 0;
         break;
       case "D":
         if (this.pos[0] < 990) {
           this.vel[0] = 2;
         }
-        // this.vel[1] = 0;
         break;
       case "K":
         this.throwKunai();
