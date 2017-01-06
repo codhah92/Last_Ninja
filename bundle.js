@@ -815,7 +815,7 @@
 	  }, {
 	    key: 'handleKeyEvent',
 	    value: function handleKeyEvent(e) {
-	      if (e.keyCode === 32) {
+	      if (e.keyCode === 32 || e.keyCode === 13) {
 	        e.preventDefault();
 	      }
 	
