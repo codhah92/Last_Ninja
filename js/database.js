@@ -38,7 +38,7 @@ const lowestHighScore = (database, score, highScores, sortedHighScores) => {
 const renderHighScores = (database, score, newHighScore) => {
   $('.high-score-form').removeClass('hidden');
   $('.form')[0].value = "";
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let name = $('.form')[0].value;
