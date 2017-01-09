@@ -72,3 +72,17 @@ Sound effects and music toggling were controlled with JavaScript's HTML5AudioEle
     }
   }
 ```
+
+#### Points / High Scores
+
+The top eight high scores are stored with Firebase, a NoSQL storage platform that stores and syncs data across multiple clients. The Firebase code is initialized in `main.js` and in the `database.js` file.
+
+``` javascript
+  firebase.initializeApp(config);
+
+  const database = firebase.database();
+```
+
+When a user attains a high score, a form modal appears to enter their name. Upon entry, their name gets posted into the high scores form in order of highest to lowest score. If multiple users are playing `Last Ninja`, they will be able to observe realtime changes to the high score list, allowing for global high scores.
+
+![main](assets/high_scores.png)
